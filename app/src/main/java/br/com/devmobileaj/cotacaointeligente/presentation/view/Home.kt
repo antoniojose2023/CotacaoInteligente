@@ -15,18 +15,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.devmobileaj.cotacaointeligente.domain.Moeda
 import br.com.devmobileaj.cotacaointeligente.presentation.components.ItemCurrency
 import br.com.devmobileaj.cotacaointeligente.presentation.navigation.StateScreen
+import br.com.devmobileaj.cotacaointeligente.presentation.viewmodel.RateViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home(navController: NavController){
+fun Home(navController: NavController, rateViewModel: RateViewModel){
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -60,15 +64,7 @@ fun Home(navController: NavController){
         }
     ) { innerPadding ->
 
-
-
-        val currency = listOf(
-            Moeda("USD", 1.40, "2026-11-22"),
-            Moeda("USD", 1.40, "2026-11-22"),
-            Moeda("USD", 1.40, "2026-11-22"),
-            Moeda("USD", 1.40, "2026-11-22"),
-            Moeda("USD", 1.40, "2026-11-22"),
-        )
+        val currency = rateViewModel.state.collectAsState(emptyList<Moeda>()).value
 
         Column(
             modifier = Modifier
